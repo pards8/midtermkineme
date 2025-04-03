@@ -9,7 +9,7 @@ const app = express();
 app.use(express.json());
 
 // Database connection
-mongoose.connect('mongodb://localhost:27017/pharmacy', {
+mongoose.connect( {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
