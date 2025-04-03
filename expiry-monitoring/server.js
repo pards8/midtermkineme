@@ -1,19 +1,27 @@
-const express = require('express');
-const cors = require('cors');
-const connectDB = require('./config/db');
-const medicineRoutes = require('./routes/medicineRoutes');
+const express = require('express'); 
+const mongoose = require('mongoose');
+const pharmacyRoutes = require('./routes/pharmacyRoutes');
 
 const app = express();
-app.use(express.json());
-app.use(cors());
 
-// Connect to MongoDB
-connectDB();
+// Middleware
+app.use(express.json());
+
+// Database Connection - Updated to remove deprecated options
+mongoose.connect('mongodb://localhost:27017/pharmacy_db')
+  .then(() => console.log('Connected to MongoDB'))
+  .catch(err => console.error('MongoDB connection error:', err));
 
 // Routes
-app.use('/medicines', medicineRoutes);
+app.use('/pharmacy', pharmacyRoutes);
 
-const PORT = 5000;
+// Error Handling Middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ error: 'Something went wrong!' });
+});
+
+const PORT = 3000;
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
