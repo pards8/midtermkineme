@@ -1,1 +1,0 @@
-# midtermkinemenpm -y init
